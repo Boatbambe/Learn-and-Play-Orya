@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belajar Bahasa Orya — Bagian Tubuh</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --accent: #f97316;
+    --accent2: #38bdf8;
+    --accent3: #a78bfa;
+    --text: #f0f6fc;
+    --muted: #8b949e;
+    --correct: #22c55e;
+    --wrong: #ef4444;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  /* Background decoration */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(56,189,248,0.10) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .app { width: 100%; max-width: 680px; padding: 24px 16px 48px; position: relative; z-index:1; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 32px; }
+  .header .flag {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 8px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .header h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+  /* Progress bar */
+  .progress-wrap { margin-bottom: 24px; }
+  .progress-info { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .progress-bar {
+    height: 6px;
+    background: #21262d;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 99px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* Mode tabs */
+  .mode-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    background: var(--card);
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid #21262d;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(249,115,22,0.4);
+  }
+
+  /* ===== SLIDE MODE ===== */
+  .slide-card {
+    background: var(--card);
+    border: 1px solid #21262d;
+    border-radius: 24px;
+    padding: 40px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: slideIn 0.35s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes slideIn { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
+
+  .slide-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  }
+
+  .slide-number {
+    position: absolute;
+    top: 20px; right: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .slide-section-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(249,115,22,0.15);
+    border: 1px solid rgba(249,115,22,0.3);
+    border-radius: 99px;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .slide-emoji {
+    font-size: 72px;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+    animation: popIn 0.4s cubic-bezier(.175,.885,.32,1.275);
+  }
+  @keyframes popIn { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
+
+  .slide-orya {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .slide-indo {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .slide-hint {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .slide-controls {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ctrl-btn {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:active { transform: scale(0.96); }
+  .ctrl-btn.prev {
+    background: #21262d;
+    color: var(--text);
+  }
+  .ctrl-btn.next {
+    background: linear-gradient(135deg, var(--accent), #ea580c);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+    padding: 14px 36px;
+  }
+  .ctrl-btn:hover { filter: brightness(1.15); }
+
+  /* ===== QUIZ MODE ===== */
+  .quiz-card {
+    background: var(--card);
+    border: 1px solid #21262d;
+    border-radius: 24px;
+    padding: 36px 28px;
+    animation: slideIn 0.3s ease;
+  }
+
+  .quiz-question {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .quiz-q-label { font-size: 13px; color: var(--muted); margin-bottom: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .quiz-q-word {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 56px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent2), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .quiz-q-sub { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .quiz-opt {
+    padding: 18px 16px;
+    background: #21262d;
+    border: 2px solid #30363d;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .quiz-opt:hover { border-color: var(--accent2); background: rgba(56,189,248,0.08); }
+  .quiz-opt.correct { border-color: var(--correct); background: rgba(34,197,94,0.15); color: var(--correct); }
+  .quiz-opt.wrong { border-color: var(--wrong); background: rgba(239,68,68,0.15); color: var(--wrong); }
+  .quiz-opt:disabled { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    min-height: 28px;
+    transition: all 0.3s;
+  }
+  .quiz-feedback.correct { color: var(--correct); }
+  .quiz-feedback.wrong { color: var(--wrong); }
+
+  .quiz-next {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent), #ea580c);
+    border: none;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+    display: none;
+  }
+  .quiz-next:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+  /* Score board */
+  .score-bar {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 14px 20px;
+    background: var(--card);
+    border: 1px solid #21262d;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .score-item { display: flex; align-items: center; gap: 6px; }
+  .score-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .score-dot.c { background: var(--correct); }
+  .score-dot.w { background: var(--wrong); }
+
+  /* ===== FLIP MODE ===== */
+  .flip-scene { perspective: 1000px; margin-bottom: 24px; }
+  .flip-card-inner {
+    width: 100%;
+    min-height: 260px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(.4,0,.2,1);
+    cursor: pointer;
+  }
+  .flip-card-inner.flipped { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    min-height: 260px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    border: 1px solid #21262d;
+  }
+  .flip-front { background: var(--card); }
+  .flip-back { background: linear-gradient(135deg, #1a0f02, #0d1117); border-color: rgba(249,115,22,0.3); transform: rotateY(180deg); }
+
+  .flip-tap-hint { font-size: 12px; color: var(--muted); margin-top: 16px; letter-spacing: 1px; }
+  .flip-controls { display: flex; gap: 12px; justify-content: center; }
+
+  /* Result screen */
+  .result-screen {
+    text-align: center;
+    padding: 40px 20px;
+    animation: slideIn 0.4s ease;
+  }
+  .result-emoji { font-size: 80px; display: block; margin-bottom: 16px; }
+  .result-score {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .result-label { font-size: 18px; color: var(--muted); margin-top: 8px; margin-bottom: 28px; }
+  .restart-btn {
+    padding: 16px 40px;
+    background: linear-gradient(135deg, var(--accent), #ea580c);
+    border: none;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(249,115,22,0.4);
+    transition: all 0.2s;
+  }
+  .restart-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <span class="flag">🦜</span>
+    <h1>Belajar Bahasa Orya</h1>
+    <p>Kosakata Bagian Tubuh — Papua, Indonesia</p>
+  </div>
+
+  <!-- Mode tabs -->
+  <div class="mode-tabs">
+    <button class="tab-btn active" onclick="setMode('slide')">📖 Slide</button>
+    <button class="tab-btn" onclick="setMode('flip')">🃏 Kartu</button>
+    <button class="tab-btn" onclick="setMode('quiz')">✏️ Kuis</button>
+  </div>
+
+  <div id="app-content"></div>
+</div>
+
+<script>
+const data = [
+  { section: "Kepala & Wajah", indo: "kepala", orya: "nol", emoji: "🧠" },
+  { section: "Kepala & Wajah", indo: "rambut", orya: "nol ala", emoji: "💇" },
+  { section: "Kepala & Wajah", indo: "mata", orya: "nwe", emoji: "👁️" },
+  { section: "Kepala & Wajah", indo: "telinga", orya: "ing ala", emoji: "👂" },
+  { section: "Kepala & Wajah", indo: "hidung", orya: "mase", emoji: "👃" },
+  { section: "Kepala & Wajah", indo: "mulut", orya: "mip", emoji: "👄" },
+  { section: "Kepala & Wajah", indo: "bibir", orya: "mip", emoji: "💋" },
+  { section: "Kepala & Wajah", indo: "gigi", orya: "ëk", emoji: "🦷" },
+  { section: "Kepala & Wajah", indo: "lidah", orya: "mahal", emoji: "👅" },
+  { section: "Lengan & Tangan", indo: "lengan", orya: "taha", emoji: "💪" },
+  { section: "Lengan & Tangan", indo: "siku", orya: "taha ausu", emoji: "🦾" },
+  { section: "Lengan & Tangan", indo: "jari", orya: "taha bol", emoji: "☝️" },
+  { section: "Lengan & Tangan", indo: "kuku", orya: "taha bol ongkol", emoji: "💅" },
+  { section: "Badan Atas", indo: "dada", orya: "dang", emoji: "🫀" },
+  { section: "Badan Atas", indo: "punggung", orya: "tahan dan", emoji: "🔙" },
+  { section: "Badan Tengah", indo: "perut", orya: "u", emoji: "🫃" },
+  { section: "Badan Tengah", indo: "hati / liver", orya: "en", emoji: "🫁" },
+  { section: "Tungkai Bawah", indo: "kaki / tungkai", orya: "tana", emoji: "🦵" },
+  { section: "Tungkai Bawah", indo: "lutut", orya: "bokle", emoji: "🦿" },
+  { section: "Jaringan & Umum", indo: "rambut badan", orya: "tim ala", emoji: "🧖" },
+  { section: "Jaringan & Umum", indo: "kulit", orya: "sop", emoji: "🫂" },
+  { section: "Jaringan & Umum", indo: "darah", orya: "kal", emoji: "🩸" },
+  { section: "Jaringan & Umum", indo: "tulang", orya: "dan", emoji: "🦴" },
+  { section: "Jaringan & Umum", indo: "daging", orya: "sop / nin", emoji: "🥩" },
+  { section: "Jaringan & Umum", indo: "tubuh", orya: "tim", emoji: "🧍" },
+];
+
+let mode = 'slide';
+let slideIdx = 0;
+let flipIdx = 0;
+let flipped = false;
+let quizIdx = 0;
+let quizScore = 0;
+let quizWrong = 0;
+let answered = false;
+let quizOrder = [];
+
+function setMode(m) {
+  mode = m;
+  slideIdx = 0; flipIdx = 0; flipped = false;
+  quizIdx = 0; quizScore = 0; quizWrong = 0; answered = false;
+  quizOrder = shuffle([...Array(data.length).keys()]);
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['slide','flip','quiz'][i] === m);
+  });
+  render();
+}
+
+function shuffle(arr) {
+  for (let i = arr.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function render() {
+  const el = document.getElementById('app-content');
+  if (mode === 'slide') el.innerHTML = renderSlide();
+  if (mode === 'flip') el.innerHTML = renderFlip();
+  if (mode === 'quiz') el.innerHTML = renderQuiz();
+}
+
+function renderSlide() {
+  const item = data[slideIdx];
+  const pct = Math.round(((slideIdx+1)/data.length)*100);
+  return `
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>📍 ${item.section}</span>
+        <span>${slideIdx+1} / ${data.length}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="slide-card">
+      <span class="slide-number">${slideIdx+1}/${data.length}</span>
+      <div class="slide-section-badge">${item.section}</div>
+      <span class="slide-emoji">${item.emoji}</span>
+      <div class="slide-orya">${item.orya}</div>
+      <div class="slide-indo">${item.indo}</div>
+      <div class="slide-hint">Bahasa Indonesia → Bahasa Orya</div>
+    </div>
+    <div class="slide-controls">
+      <button class="ctrl-btn prev" onclick="slideNav(-1)" ${slideIdx===0?'disabled':''}>← Kembali</button>
+      <button class="ctrl-btn next" onclick="slideNav(1)">${slideIdx===data.length-1?'🏁 Selesai':'Lanjut →'}</button>
+    </div>
+  `;
+}
+
+function slideNav(dir) {
+  slideIdx = Math.max(0, Math.min(data.length-1, slideIdx+dir));
+  render();
+}
+
+function renderFlip() {
+  const item = data[flipIdx];
+  const pct = Math.round(((flipIdx+1)/data.length)*100);
+  return `
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>🃏 Kartu ${flipIdx+1} dari ${data.length}</span>
+        <span>${item.section}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="flip-scene">
+      <div class="flip-card-inner ${flipped?'flipped':''}" id="flipcard" onclick="doFlip()">
+        <div class="flip-front">
+          <span style="font-size:64px">${item.emoji}</span>
+          <div style="font-size:26px;font-weight:800;margin-top:16px">${item.indo}</div>
+          <div class="flip-tap-hint">👆 Ketuk untuk lihat jawaban</div>
+        </div>
+        <div class="flip-back">
+          <span style="font-size:64px">${item.emoji}</span>
+          <div style="font-family:'Baloo 2',sans-serif;font-size:48px;font-weight:800;background:linear-gradient(135deg,#f97316,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:12px">${item.orya}</div>
+          <div style="color:#8b949e;font-size:14px;margin-top:8px">${item.indo}</div>
+          <div class="flip-tap-hint">Bahasa Orya ☝️</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-controls">
+      <button class="ctrl-btn prev" onclick="flipNav(-1)" ${flipIdx===0?'disabled':''}>← Kembali</button>
+      <button class="ctrl-btn next" onclick="flipNav(1)">${flipIdx===data.length-1?'🏁 Selesai':'Lanjut →'}</button>
+    </div>
+  `;
+}
+
+function doFlip() { flipped = !flipped; document.getElementById('flipcard').classList.toggle('flipped', flipped); }
+function flipNav(dir) { flipIdx = Math.max(0, Math.min(data.length-1, flipIdx+dir)); flipped = false; render(); }
+
+function renderQuiz() {
+  if (quizIdx >= data.length) return renderResult();
+  const realIdx = quizOrder[quizIdx];
+  const item = data[realIdx];
+  const pct = Math.round((quizIdx/data.length)*100);
+
+  // Generate 4 options: 1 correct + 3 wrong
+  let opts = [item.orya];
+  let pool = data.filter((_,i)=>i!==realIdx).map(d=>d.orya);
+  pool = shuffle(pool);
+  opts = opts.concat(pool.slice(0,3));
+  opts = shuffle(opts);
+
+  const optsHTML = opts.map((o,i) => `
+    <button class="quiz-opt" id="opt${i}" onclick="checkAnswer(this,'${o.replace(/'/g,"\\'")}','${item.orya.replace(/'/g,"\\'")}')">${o}</button>
+  `).join('');
+
+  return `
+    <div class="score-bar">
+      <div class="score-item"><div class="score-dot c"></div><span>Benar: ${quizScore}</span></div>
+      <div class="score-item"><div class="score-dot w"></div><span>Salah: ${quizWrong}</span></div>
+      <div style="margin-left:auto;color:var(--muted);font-size:13px">${quizIdx+1}/${data.length}</div>
+    </div>
+    <div class="progress-wrap" style="margin-bottom:16px">
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="quiz-card">
+      <div class="quiz-question">
+        <div class="quiz-q-label">Apa artinya dalam Bahasa Orya?</div>
+        <div class="quiz-q-word">${item.emoji} ${item.indo}</div>
+        <div class="quiz-q-sub">${item.section}</div>
+      </div>
+      <div class="quiz-options">${optsHTML}</div>
+      <div class="quiz-feedback" id="qfeed"></div>
+      <button class="quiz-next" id="qnext" onclick="nextQuiz()">Soal Berikutnya →</button>
+    </div>
+  `;
+}
+
+function checkAnswer(btn, chosen, correct) {
+  if (answered) return;
+  answered = true;
+  const allBtns = document.querySelectorAll('.quiz-opt');
+  allBtns.forEach(b => b.disabled = true);
+  const feed = document.getElementById('qfeed');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    feed.textContent = '✅ Benar! Bagus sekali!';
+    feed.className = 'quiz-feedback correct';
+    quizScore++;
+  } else {
+    btn.classList.add('wrong');
+    feed.textContent = `❌ Salah. Jawaban: ${correct}`;
+    feed.className = 'quiz-feedback wrong';
+    allBtns.forEach(b => { if (b.textContent.trim() === correct) b.classList.add('correct'); });
+    quizWrong++;
+  }
+  document.getElementById('qnext').style.display = 'block';
+}
+
+function nextQuiz() { quizIdx++; answered = false; render(); }
+
+function renderResult() {
+  const pct = Math.round((quizScore/data.length)*100);
+  let emoji = pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '📚';
+  let msg = pct >= 80 ? 'Luar biasa!' : pct >= 50 ? 'Bagus, terus belajar!' : 'Yuk coba lagi!';
+  return `
+    <div class="result-screen">
+      <span class="result-emoji">${emoji}</span>
+      <div class="result-score">${quizScore}/${data.length}</div>
+      <div class="result-label">${pct}% benar — ${msg}</div>
+      <button class="restart-btn" onclick="restartQuiz()">🔄 Ulangi Kuis</button>
+    </div>
+  `;
+}
+
+function restartQuiz() {
+  quizIdx = 0; quizScore = 0; quizWrong = 0; answered = false;
+  quizOrder = shuffle([...Array(data.length).keys()]);
+  render();
+}
+
+// Init
+quizOrder = shuffle([...Array(data.length).keys()]);
+render();
+</script>
+</body>
+</html>
